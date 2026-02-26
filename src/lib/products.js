@@ -11,3 +11,8 @@ export async function fetchCategories() {
   console.log("Fake Store Categories API: ", res);
   return res.data;
 }
+
+export async function fetchProductById(id) {
+  const res = await api.get(`/products/${id}`);
+  return res.data;
+}

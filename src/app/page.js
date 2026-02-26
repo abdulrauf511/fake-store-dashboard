@@ -73,8 +73,12 @@ export default function Home() {
 
   useEffect(() => {
     // If filters reduce results, keep page valid
-    if (page > totalPages) setPage(totalPages);
-  }, [page, totalPages]);
+    if (page > totalPages && totalPages > 0) {
+      setPage(totalPages);
+    } else if (totalPages === 0 && page !== 1) {
+      setPage(1);
+    }
+  }, [totalPages]);
 
   function getPageNumbers(current, total) {
     const delta = 2; // how many pages around current
@@ -97,7 +101,7 @@ export default function Home() {
         if (i - last === 2) {
           rangeWithDots.push(last + 1);
         } else if (i - last > 2) {
-          rangeWithDots.push("...");
+          rangeWithDots.push(`...${last}-${i}`);
         }
       }
       rangeWithDots.push(i);
@@ -173,7 +177,10 @@ export default function Home() {
                   <select
                     className="mt-1 w-full border rounded-lg px-3 py-2"
                     value={sort}
-                    onChange={(e) => setSort(e.target.value)}
+                    onChange={(e) => {
+                      setSort(e.target.value);
+                      setPage(1);
+                    }}
                   >
                     <option value="none">None</option>
                     <option value="price-asc">Price: Low → High</option>
@@ -269,13 +276,10 @@ export default function Home() {
                 >
                   Prev
                 </button>
-                {getPageNumbers(page, totalPages).map((item, idx) => {
-                  if (item === "...") {
+                {getPageNumbers(page, totalPages).map((item) => {
+                  if (typeof item === "string" && item.startsWith("...")) {
                     return (
-                      <span
-                        key={`dots-${idx}`}
-                        className="px-3 py-2 text-gray-500"
-                      >
+                      <span key={item} className="px-3 py-2 text-gray-500">
                         ...
                       </span>
                     );
