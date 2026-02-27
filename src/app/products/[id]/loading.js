@@ -15,7 +15,7 @@ export default function Loading() {
           {/* Image */}
           <div className="lg:col-span-4">
             <div className="bg-white border rounded-xl p-4">
-              <div className="h-[420px] bg-gray-200 rounded-lg animate-pulse" />
+              <div className="h-105 bg-gray-200 rounded-lg animate-pulse" />
               <div className="mt-3 flex gap-2">
                 <div className="h-6 w-20 bg-gray-200 rounded animate-pulse" />
                 <div className="h-6 w-20 bg-gray-200 rounded animate-pulse" />
